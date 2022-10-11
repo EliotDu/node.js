@@ -8,6 +8,10 @@ const app = express();
 
 //註冊樣版引擎
 app.set('view engine', 'ejs');
+//top level middleware
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
+
 
 //設定路由
 app.get('/',(req,res)=>{
@@ -30,9 +34,14 @@ app.get('/try-qs',(req,res)=>{
 })
 
 //取得POST資料
-const urlencodedParser = express.urlencoded({extends:false});
-app.post('/try-post',urlencodedParser,(req,res)=>{
+app.post('/try-post',(req,res)=>{
     res.json(req.body);
+})
+app.get('/try-post-form',(req,res)=>{
+    res.render('try-post-form');
+})
+app.post('/try-post-form',(req,res)=>{
+    res.render('try-post-form',req.body);
 })
 
 
