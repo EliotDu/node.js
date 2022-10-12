@@ -2,12 +2,16 @@ require('dotenv').config();
 const { request, response } = require('express');
 //引入express
 const express = require('express');
+const multer = require('multer');
+const upload = multer({dest:'tmp_uploads/'});
+const fs = require('fs').promises;
 //建立web server物件
 const app = express();
 
 
 //註冊樣版引擎
 app.set('view engine', 'ejs');
+
 //top level middleware
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
@@ -40,8 +44,17 @@ app.post('/try-post',(req,res)=>{
 app.get('/try-post-form',(req,res)=>{
     res.render('try-post-form');
 })
+
 app.post('/try-post-form',(req,res)=>{
     res.render('try-post-form',req.body);
+})
+app.post('/try-upload',upload.single('avatar'), async (req,res)=>{
+    if(req.file && req.file.originalname ){
+       await  fs.rename(req.file.path,`public/imgs/${req.file.originalname}`);
+       res.json(req.file);
+    }else{
+        req.json({msg:'沒有上傳檔案'});
+    }
 })
 
 
