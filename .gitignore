@@ -1,3 +1,4 @@
 node_modules
 .env
 /public/uploads
+fontawesome-free-6.2.0
