@@ -60,7 +60,7 @@
         }
         async function upload(){
             const fd = new FormData(document.form1);
-
+            
             const r = await fetch('/try-upload2', {
                 method: 'POST',
                 body: fd
